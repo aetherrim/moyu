@@ -9,6 +9,15 @@ final class NotificationManager {
     private init() {}
 
     private static let reminderIdentifier = "daily.reminder.notification"
+    private static let schedulingWindowDays = 30
+
+    private static func reminderIdentifier(for offset: Int) -> String {
+        "\(reminderIdentifier).\(offset)"
+    }
+
+    private static func reminderIdentifiersToClear() -> [String] {
+        [reminderIdentifier] + (0..<schedulingWindowDays).map { reminderIdentifier(for: $0) }
+    }
 
     func requestAuthorization() async -> Bool {
         do {
@@ -34,30 +43,40 @@ final class NotificationManager {
         quoteProvider: DailyQuoteProviding,
         referenceDate: Date = Date()
     ) {
-        let content = UNMutableNotificationContent()
-        content.title = Self.localizedTitle(for: language)
         let nextFireDate = Self.nextTriggerDate(from: components, referenceDate: referenceDate)
-        let quote = quoteProvider.quote(for: nextFireDate)
-        content.body = quote.text(for: language)
-        content.sound = .default
+        var calendar = components.calendar ?? Calendar.current
+        calendar.timeZone = components.timeZone ?? TimeZone.current
 
-        var finalComponents = components
-        finalComponents.calendar = components.calendar ?? Calendar.current
-        finalComponents.timeZone = components.timeZone ?? TimeZone.current
+        let identifiersToClear = Self.reminderIdentifiersToClear()
+        center.removePendingNotificationRequests(withIdentifiers: identifiersToClear)
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: finalComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: Self.reminderIdentifier, content: content, trigger: trigger)
+        for offset in 0..<Self.schedulingWindowDays {
+            guard let fireDate = calendar.date(byAdding: .day, value: offset, to: nextFireDate) else { continue }
 
-        center.removePendingNotificationRequests(withIdentifiers: [Self.reminderIdentifier])
-        center.add(request) { error in
-            if let error {
-                print("Failed to schedule notification: \(error)")
+            let quote = quoteProvider.quote(for: fireDate)
+            let content = UNMutableNotificationContent()
+            content.title = Self.localizedTitle(for: language)
+            content.body = quote.text(for: language)
+            content.sound = .default
+
+            var fireComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: fireDate)
+            fireComponents.calendar = calendar
+            fireComponents.timeZone = calendar.timeZone
+
+            let trigger = UNCalendarNotificationTrigger(dateMatching: fireComponents, repeats: false)
+            let identifier = Self.reminderIdentifier(for: offset)
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+            center.add(request) { error in
+                if let error {
+                    print("Failed to schedule notification (\(identifier)): \(error)")
+                }
             }
         }
     }
 
     func cancelDailyNotification() {
-        center.removePendingNotificationRequests(withIdentifiers: [Self.reminderIdentifier])
+        center.removePendingNotificationRequests(withIdentifiers: Self.reminderIdentifiersToClear())
     }
 
     private static func timeComponents(from date: Date) -> DateComponents {
