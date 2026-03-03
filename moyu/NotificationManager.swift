@@ -52,6 +52,7 @@ final class NotificationManager {
 
         for offset in 0..<Self.schedulingWindowDays {
             guard let fireDate = calendar.date(byAdding: .day, value: offset, to: nextFireDate) else { continue }
+            guard Self.isWeekday(fireDate, calendar: calendar) else { continue }
 
             let quote = quoteProvider.quote(for: fireDate)
             let content = UNMutableNotificationContent()
@@ -104,6 +105,10 @@ final class NotificationManager {
             matchingPolicy: .nextTime,
             direction: .forward
         ) ?? referenceDate
+    }
+
+    private static func isWeekday(_ date: Date, calendar: Calendar) -> Bool {
+        !calendar.isDateInWeekend(date)
     }
 
     private static func localizedTitle(for language: AppLanguage) -> String {
