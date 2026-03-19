@@ -594,6 +594,42 @@ struct QuoteRepository {
             .english: "The original purpose of working hard is to live a better life, not to lose it.",
             .spanish: "El propósito original de trabajar duro es vivir mejor, no perder la vida en ello.",
             .japanese: "一生懸命働く本来の目的は、より良い生活を送るためであり、生活を失うためではない。"
+        ]),
+        Quote(id: 95, localizedTexts: [
+            .simplifiedChinese: "别总反思自己为什么效率低，有些破公司的流程连 AI 来了都得宕机。",
+            .english: "Stop blaming yourself for low productivity. Some of this company's broken processes would make an AI crash.",
+            .spanish: "Deja de culparte por tu baja productividad. Algunos de los procesos rotos de esta empresa harían que una IA colapsara.",
+            .japanese: "自分の生産性が低いと反省するのはやめよう。この会社のクソみたいなプロセスは、AIでさえフリーズするレベルだ。"
+        ]),
+        Quote(id: 96, localizedTexts: [
+            .simplifiedChinese: "攒工资是为了有一天能理直气壮地说‘老子不干了’。",
+            .english: "Saving your salary is for that one day you can confidently say, 'I quit.'",
+            .spanish: "Ahorrar tu sueldo es para el día en que puedas decir con orgullo: 'Renuncio'.",
+            .japanese: "給料を貯めるのは、いつか堂々と「もう辞めてやる」と言うためだ。"
+        ]),
+        Quote(id: 97, localizedTexts: [
+            .simplifiedChinese: "老板说你‘还需要沉淀’，翻译过来就是‘我还不想给你涨工资’。",
+            .english: "When the boss says you 'need more time to grow,' it translates to 'I don't want to give you a raise yet.'",
+            .spanish: "Cuando el jefe dice que 'necesitas más tiempo para crecer', se traduce como 'aún no quiero darte un aumento'.",
+            .japanese: "上司の「君にはまだ成長が必要だ」は、「まだ給料を上げたくない」の翻訳だ。"
+        ]),
+        Quote(id: 98, localizedTexts: [
+            .simplifiedChinese: "别让一个连打车费都不给报销的公司，否定了你的人生价值。",
+            .english: "Don't let a company that won't even reimburse your cab fare dictate your self-worth.",
+            .spanish: "No dejes que una empresa que ni siquiera te reembolsa el taxi dicte tu valor como persona.",
+            .japanese: "タクシー代すら経費で落とさないような会社に、君の人生の価値を否定させてはいけない。"
+        ]),
+        Quote(id: 99, localizedTexts: [
+            .simplifiedChinese: "泰坦尼克号沉没，可不是因为乘客不会游泳。",
+            .english: "The Titanic didn't sink because the passengers couldn't swim.",
+            .spanish: "El Titanic no se hundió porque los pasajeros no supieran nadar.",
+            .japanese: "タイタニック号が沈んだのは、乗客が泳げなかったからではない。"
+        ]),
+        Quote(id: 100, localizedTexts: [
+            .simplifiedChinese: "薪水越少，敷衍越多。",
+            .english: "The lower the pay, the higher the half-assing.",
+            .spanish: "A menor salario, mayor mediocridad.",
+            .japanese: "給料が少ないほど、手抜きは増える。"
         ])
     ]
 
