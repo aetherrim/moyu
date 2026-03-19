@@ -498,6 +498,102 @@ struct QuoteRepository {
             .english: "You think you're working, but you're actually just participating in a reality show called 'Pretending to be Busy'.",
             .spanish: "Crees que estás trabajando, pero en realidad solo participas en un reality show llamado 'Fingir estar ocupado'.",
             .japanese: "君は仕事をしているつもりかもしれないが、実は「忙しいフリ」というリアリティ番組に参加しているだけだ。"
+        ]),
+        Quote(id: 79, localizedTexts: [
+            .simplifiedChinese: "你的狗不在乎你是不是总监，它只在乎你今天有没有空扔飞盘。",
+            .english: "Your dog doesn't care if you're a director; they just care if you have time to throw the frisbee today.",
+            .spanish: "A tu perro no le importa si eres director; solo le importa si tienes tiempo para lanzarle el frisbee hoy.",
+            .japanese: "犬はあなたが部長かどうかなんて気にしない。今日フリスビーを投げる時間があるかどうかだけだ。"
+        ]),
+        Quote(id: 80, localizedTexts: [
+            .simplifiedChinese: "父母老去的速度，可不会停下来等你做完这个项目。",
+            .english: "Your parents' aging won't hit pause while you finish this project.",
+            .spanish: "El envejecimiento de tus padres no se pondrá en pausa mientras terminas este proyecto.",
+            .japanese: "親が老いるスピードは、あなたがこのプロジェクトを終えるのを待ってはくれない。"
+        ]),
+        Quote(id: 81, localizedTexts: [
+            .simplifiedChinese: "家里等你吃饭的人，比群里催你交报告的人重要一万倍。",
+            .english: "The person waiting for you at home for dinner is ten thousand times more important than the one rushing your report in the group chat.",
+            .spanish: "La persona que te espera en casa para cenar es diez mil veces más importante que quien te apura por el informe en el chat.",
+            .japanese: "家でご飯を待っている人は、チャットで報告書を急かす人より一万倍重要だ。"
+        ]),
+        Quote(id: 82, localizedTexts: [
+            .simplifiedChinese: "孩子的童年只有一次，错过了，用多少年终奖都买不回来。",
+            .english: "Your child's childhood only happens once. Miss it, and no year-end bonus can buy it back.",
+            .spanish: "La infancia de tu hijo solo ocurre una vez. Si te la pierdes, ningún bono de fin de año podrá comprarla.",
+            .japanese: "子供の子供時代は一度きり。見逃したら、どれだけボーナスをもらっても買い戻せない。"
+        ]),
+        Quote(id: 83, localizedTexts: [
+            .simplifiedChinese: "多和朋友喝酒吹牛，少在KPI上屎上雕花。",
+            .english: "Spend more time drinking and bragging with friends, and less time polishing turds for your KPIs.",
+            .spanish: "Pasa más tiempo bebiendo y charlando con amigos, y menos tiempo puliendo basura para tus KPIs.",
+            .japanese: "友達と酒を飲んで語り合う時間を増やし、KPIのためにクソを磨く時間を減らそう。"
+        ]),
+        Quote(id: 84, localizedTexts: [
+            .simplifiedChinese: "今天的晚霞很美，别让它只倒映在办公室的玻璃上。",
+            .english: "The sunset is beautiful today. Don't let it only reflect on the office windows.",
+            .spanish: "El atardecer es hermoso hoy. No dejes que solo se refleje en las ventanas de la oficina.",
+            .japanese: "今日の夕焼けは美しい。オフィスの窓ガラスに反射させるだけじゃもったいない。"
+        ]),
+        Quote(id: 85, localizedTexts: [
+            .simplifiedChinese: "下班路上给家里打个电话吧，他们比老板更想听你的声音。",
+            .english: "Call your family on the way home. They want to hear your voice much more than your boss does.",
+            .spanish: "Llama a tu familia de camino a casa. Quieren escuchar tu voz mucho más que tu jefe.",
+            .japanese: "帰り道に家族に電話しよう。彼らは上司よりもずっとあなたの声を聞きたがっている。"
+        ]),
+        Quote(id: 86, localizedTexts: [
+            .simplifiedChinese: "临终前，没有人会后悔自己当年没多加几天班，只会后悔没多陪陪爱的人。",
+            .english: "On their deathbed, no one ever regrets not working more overtime; they only regret not spending more time with loved ones.",
+            .spanish: "En el lecho de muerte, nadie se arrepiente de no haber hecho más horas extra; solo se arrepienten de no haber pasado más tiempo con sus seres queridos.",
+            .japanese: "死ぬ間際に「もっと残業すればよかった」と後悔する人はいない。愛する人と過ごさなかったことだけを後悔するのだ。"
+        ]),
+        Quote(id: 87, localizedTexts: [
+            .simplifiedChinese: "周末是用来制造回忆的，不是用来回邮件的。",
+            .english: "Weekends are for making memories, not for replying to emails.",
+            .spanish: "Los fines de semana son para crear recuerdos, no para responder correos.",
+            .japanese: "週末は思い出を作るためのものであり、メールに返信するためのものではない。"
+        ]),
+        Quote(id: 88, localizedTexts: [
+            .simplifiedChinese: "把时间浪费在喜欢的人身上，那就不叫浪费时间。",
+            .english: "Time wasted with people you love is not wasted time.",
+            .spanish: "El tiempo que pierdes con las personas que amas no es tiempo perdido.",
+            .japanese: "好きな人と一緒に無駄にする時間は、決して無駄な時間ではない。"
+        ]),
+        Quote(id: 89, localizedTexts: [
+            .simplifiedChinese: "陪父母散散步，比参加任何一场会议都更有意义。",
+            .english: "Taking a walk with your parents is more meaningful than attending any meeting.",
+            .spanish: "Dar un paseo con tus padres tiene más sentido que asistir a cualquier reunión.",
+            .japanese: "両親と散歩することは、どんな会議に出席するよりも意味がある。"
+        ]),
+        Quote(id: 90, localizedTexts: [
+            .simplifiedChinese: "你的猫不知道什么是OKR，它只知道你今天回家晚了。",
+            .english: "Your cat doesn't know what an OKR is; it only knows you came home late today.",
+            .spanish: "Tu gato no sabe qué es un OKR; solo sabe que hoy llegaste tarde a casa.",
+            .japanese: "あなたの猫はOKRなんて知らない。今日帰りが遅かったことだけを知っている。"
+        ]),
+        Quote(id: 91, localizedTexts: [
+            .simplifiedChinese: "别把最好的脾气给了客户，却把最差的耐心留给家人。",
+            .english: "Don't give your best temper to clients and leave your worst patience for your family.",
+            .spanish: "No le des tu mejor humor a los clientes y dejes tu peor paciencia para tu familia.",
+            .japanese: "一番良い愛想を顧客に使い、一番悪い態度を家族に向けるのはやめよう。"
+        ]),
+        Quote(id: 92, localizedTexts: [
+            .simplifiedChinese: "你的健康是家人的全世界，但在公司只是一个可以被替换的工号。",
+            .english: "Your health means the world to your family, but to the company, it's just a replaceable employee number.",
+            .spanish: "Tu salud es el mundo entero para tu familia, pero para la empresa es solo un número de empleado reemplazable.",
+            .japanese: "あなたの健康は家族にとって世界のすべてだが、会社にとっては代わりが効く社員番号にすぎない。"
+        ]),
+        Quote(id: 93, localizedTexts: [
+            .simplifiedChinese: "趁着阳光正好，去见那个你想见的人，别等下班，别等下次。",
+            .english: "While the sun is shining, go see the person you want to see. Don't wait until after work, don't wait until next time.",
+            .spanish: "Mientras brille el sol, ve a ver a la persona que quieres ver. No esperes a salir del trabajo, no esperes a la próxima vez.",
+            .japanese: "日差しが良いうちに、会いたい人に会いに行こう。退勤まで待つな、次回まで待つな。"
+        ]),
+        Quote(id: 94, localizedTexts: [
+            .simplifiedChinese: "努力工作的初衷是为了更好地生活，而不是失去生活。",
+            .english: "The original purpose of working hard is to live a better life, not to lose it.",
+            .spanish: "El propósito original de trabajar duro es vivir mejor, no perder la vida en ello.",
+            .japanese: "一生懸命働く本来の目的は、より良い生活を送るためであり、生活を失うためではない。"
         ])
     ]
 
