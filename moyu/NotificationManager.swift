@@ -47,6 +47,8 @@ final class NotificationManager {
         let nextFireDate = Self.nextTriggerDate(from: components, referenceDate: referenceDate)
         var calendar = components.calendar ?? Calendar.current
         calendar.timeZone = components.timeZone ?? TimeZone.current
+        let quoteReminderWeekdays = max(0, Self.schedulingWindowWeekdays - Self.refillReminderWeekdays)
+        var randomQuotes = quoteProvider.randomQuotes(count: quoteReminderWeekdays)
 
         let identifiersToClear = Self.reminderIdentifiersToClear()
         center.removePendingNotificationRequests(withIdentifiers: identifiersToClear)
@@ -67,7 +69,7 @@ final class NotificationManager {
             if scheduledCount >= refillReminderStartsAt {
                 content.body = Self.localizedRefillReminderBody()
             } else {
-                let quote = quoteProvider.quote(for: fireDate)
+                let quote = randomQuotes.removeFirst()
                 content.body = quote.text(for: language)
             }
             content.sound = .default

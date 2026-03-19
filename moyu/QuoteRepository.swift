@@ -150,6 +150,126 @@ struct QuoteRepository {
             .english: "Every 'urgent, top priority' request will end up sitting peacefully in the boss's inbox for three days.",
             .spanish: "Cada solicitud ‘urgente y prioritaria’ terminará reposando tranquilamente en la bandeja de entrada del jefe por tres días.",
             .japanese: "すべての「最優先」リクエストは、上司の受信トレイで三日間安らかに眠ることになる。"
+        ]),
+        Quote(id: 36, localizedTexts: [
+            .simplifiedChinese: "会议的本质，是一群人一起证明这封邮件本来也可以发。",
+            .english: "A meeting is just a group proving this could have been an email.",
+            .spanish: "Una reunión es un grupo demostrando que esto pudo ser un correo.",
+            .japanese: "会議の本質は、これがメールで済んだと皆で証明することだ。"
+        ]),
+        Quote(id: 37, localizedTexts: [
+            .simplifiedChinese: "别把周日晚上献给焦虑，老板又不会给你补周末。",
+            .english: "Don’t donate Sunday night to anxiety; your boss won’t refund the weekend.",
+            .spanish: "No regales el domingo por la noche a la ansiedad; tu jefe no te devolverá el fin de semana.",
+            .japanese: "日曜の夜を不安に差し出すな。上司は週末を返してくれない。"
+        ]),
+        Quote(id: 38, localizedTexts: [
+            .simplifiedChinese: "你不是效率机器，电量低了就该充电。",
+            .english: "You’re not a productivity machine. Low battery means recharge.",
+            .spanish: "No eres una máquina de productividad. Batería baja significa recargar.",
+            .japanese: "君は生産性マシンじゃない。充電切れなら休むべきだ。"
+        ]),
+        Quote(id: 39, localizedTexts: [
+            .simplifiedChinese: "把人生押给工位的人，最后只会得到更结实的工位。",
+            .english: "Bet your life on the desk, and all you get is a sturdier desk.",
+            .spanish: "Si apuestas tu vida al escritorio, lo único que ganas es un escritorio más sólido.",
+            .japanese: "人生をデスクに賭けても、得られるのはもっと頑丈なデスクだけだ。"
+        ]),
+        Quote(id: 40, localizedTexts: [
+            .simplifiedChinese: "今天少回一条消息，地球不会停止自转。",
+            .english: "Reply to one fewer message today. The planet will keep spinning.",
+            .spanish: "Responde un mensaje menos hoy. El planeta seguirá girando.",
+            .japanese: "今日は返信を一通減らせ。地球はちゃんと回り続ける。"
+        ]),
+        Quote(id: 41, localizedTexts: [
+            .simplifiedChinese: "有些事不是重要，只是声音大。",
+            .english: "Some things aren’t important. They’re just loud.",
+            .spanish: "Algunas cosas no son importantes; solo hacen mucho ruido.",
+            .japanese: "重要なのではなく、ただ声が大きいだけのこともある。"
+        ]),
+        Quote(id: 42, localizedTexts: [
+            .simplifiedChinese: "你的待办清单没有尽头，所以今天可以先去吃饭。",
+            .english: "Your to-do list is endless, so you can go eat first.",
+            .spanish: "Tu lista de tareas no se acaba nunca, así que primero ve a comer.",
+            .japanese: "やることリストに終わりはない。だから先にご飯を食べていい。"
+        ]),
+        Quote(id: 43, localizedTexts: [
+            .simplifiedChinese: "如果大家都装忙，那真正休息的人反而最诚实。",
+            .english: "If everyone is pretending to be busy, the one resting is the honest one.",
+            .spanish: "Si todos fingen estar ocupados, quien descansa es el más honesto.",
+            .japanese: "皆が忙しいフリをしているなら、休んでいる人が一番正直だ。"
+        ]),
+        Quote(id: 44, localizedTexts: [
+            .simplifiedChinese: "别总想着提升自己，先把自己还给自己。",
+            .english: "Stop trying to optimize yourself. Give yourself back to yourself first.",
+            .spanish: "Deja de intentar optimizarte. Primero devuélvete a ti mismo.",
+            .japanese: "自分を最適化し続けるのはやめよう。まず自分を自分に返せ。"
+        ]),
+        Quote(id: 45, localizedTexts: [
+            .simplifiedChinese: "工牌只是通行证，不是人格说明书。",
+            .english: "Your badge is just access control, not your identity.",
+            .spanish: "Tu credencial solo abre puertas; no define quién eres.",
+            .japanese: "社員証は通行証であって、君の人格説明書じゃない。"
+        ]),
+        Quote(id: 46, localizedTexts: [
+            .simplifiedChinese: "摸鱼不是逃避工作，是提醒自己别被工作吞掉。",
+            .english: "Slacking isn’t avoiding work. It’s avoiding being swallowed by work.",
+            .spanish: "Holgazanear no es evitar el trabajo; es evitar que el trabajo te trague.",
+            .japanese: "サボりは仕事から逃げることじゃない。仕事に飲み込まれないためだ。"
+        ]),
+        Quote(id: 47, localizedTexts: [
+            .simplifiedChinese: "你的人生不是冲刺赛，别把每一天都跑成加时。",
+            .english: "Your life isn’t a sprint. Stop pushing every day into overtime.",
+            .spanish: "Tu vida no es una carrera corta. No conviertas cada día en horas extra.",
+            .japanese: "人生は短距離走じゃない。毎日を残業に変えるな。"
+        ]),
+        Quote(id: 48, localizedTexts: [
+            .simplifiedChinese: "老板说再坚持一下，通常是让你替他坚持。",
+            .english: "When your boss says ‘hang in there,’ they usually mean ‘for me.’",
+            .spanish: "Cuando tu jefe dice ‘aguanta un poco más’, normalmente quiere decir ‘por mí’.",
+            .japanese: "上司の「もう少し頑張って」は、だいたい「私のために」だ。"
+        ]),
+        Quote(id: 49, localizedTexts: [
+            .simplifiedChinese: "把午休过好，比把汇报写漂亮更接近幸福。",
+            .english: "A good lunch break gets you closer to happiness than a polished status report.",
+            .spanish: "Un buen descanso al mediodía te acerca más a la felicidad que un informe bonito.",
+            .japanese: "完璧な進捗報告より、ちゃんとした昼休みのほうが幸せに近い。"
+        ]),
+        Quote(id: 50, localizedTexts: [
+            .simplifiedChinese: "人生要紧的事，通常不在抄送名单里。",
+            .english: "The important things in life are usually not on the CC line.",
+            .spanish: "Las cosas importantes de la vida casi nunca están en copia en un correo.",
+            .japanese: "人生で大事なことは、たいていCC欄には入っていない。"
+        ]),
+        Quote(id: 51, localizedTexts: [
+            .simplifiedChinese: "不要把“我很忙”误会成“我很值钱”。",
+            .english: "Don’t confuse ‘I’m busy’ with ‘I’m valuable.’",
+            .spanish: "No confundas ‘estoy ocupado’ con ‘valgo más’.",
+            .japanese: "「忙しい」と「価値がある」を取り違えるな。"
+        ]),
+        Quote(id: 52, localizedTexts: [
+            .simplifiedChinese: "今天按时下班，不是摆烂，是对生命守时。",
+            .english: "Leaving on time today isn’t slacking. It’s being punctual for your life.",
+            .spanish: "Salir a tiempo hoy no es rendirse; es ser puntual con tu vida.",
+            .japanese: "今日定時で帰るのは怠けじゃない。人生との約束を守ることだ。"
+        ]),
+        Quote(id: 53, localizedTexts: [
+            .simplifiedChinese: "真正急的事会打电话，不会只会在群里艾特你。",
+            .english: "If it’s truly urgent, they’ll call. Not just tag you in chat.",
+            .spanish: "Si de verdad urge, te llamarán; no solo te mencionarán en el chat.",
+            .japanese: "本当に緊急なら電話が来る。チャットでメンションされるだけじゃない。"
+        ]),
+        Quote(id: 54, localizedTexts: [
+            .simplifiedChinese: "与其把自己卷成文件夹，不如先出去晒十分钟太阳。",
+            .english: "Instead of folding yourself into a spreadsheet, go get ten minutes of sun.",
+            .spanish: "En vez de doblarte dentro de una hoja de cálculo, sal diez minutos al sol.",
+            .japanese: "自分を表計算ソフトに折りたたむ前に、十分だけ日を浴びよう。"
+        ]),
+        Quote(id: 55, localizedTexts: [
+            .simplifiedChinese: "你可以认真工作，但没必要把灵魂也一起提交。",
+            .english: "You can work seriously without submitting your soul with it.",
+            .spanish: "Puedes trabajar en serio sin entregar también el alma.",
+            .japanese: "真面目に働いてもいい。でも魂まで提出する必要はない。"
         ])
     ]
 
@@ -170,5 +290,23 @@ struct QuoteRepository {
 
     func allQuotes() -> [Quote] {
         QuoteRepository.quotes
+    }
+
+    func randomQuotes(count: Int) -> [Quote] {
+        guard !QuoteRepository.quotes.isEmpty else { return [] }
+
+        var result: [Quote] = []
+        result.reserveCapacity(max(0, count))
+
+        while result.count < count {
+            let remaining = count - result.count
+            if remaining >= QuoteRepository.quotes.count {
+                result.append(contentsOf: QuoteRepository.quotes.shuffled())
+            } else {
+                result.append(contentsOf: QuoteRepository.quotes.shuffled().prefix(remaining))
+            }
+        }
+
+        return result
     }
 }
