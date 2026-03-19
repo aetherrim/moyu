@@ -5,6 +5,7 @@
 "sex.male" = "男";
 "sex.female" = "女";
 "notification.title" = "每日死亡提醒";
+"notification.refill.body" = "休息一下，看看今天的死亡提醒";
 "countdown.label.bonus" = "借来的日子，好好用";
 "countdown.label.remaining" = "还可以挥霍的天数";
 "accessibility.bonus-days" = "已进入加时人生";

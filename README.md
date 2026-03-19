@@ -38,3 +38,6 @@ moyu/
 2. Build & run the `moyu` scheme on iOS 16+ simulator or device.
 3. Step through onboarding: choose language, provide birth date & sex, allow notifications if desired.
 4. Enjoy the real-time countdown; visit Settings to tweak reminders or information anytime.
+
+## Notification Copy
+- Refill reminder (zh-Hans): `休息一下，看看今天的死亡提醒`

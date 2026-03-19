@@ -5,6 +5,7 @@
 "sex.male" = "Hombre";
 "sex.female" = "Mujer";
 "notification.title" = "Recordatorio diario de la muerte";
+"notification.refill.body" = "Tómate un descanso y mira el recordatorio de hoy sobre la muerte.";
 "countdown.label.bonus" = "Tiempo prestado: aprovéchalo";
 "countdown.label.remaining" = "Tus días restantes para gastar";
 "accessibility.bonus-days" = "Días extra ganados";

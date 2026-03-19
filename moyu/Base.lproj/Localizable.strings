@@ -5,6 +5,7 @@
 "sex.male" = "Male";
 "sex.female" = "Female";
 "notification.title" = "Daily Death Reminder";
+"notification.refill.body" = "Take a break and check today’s death reminder.";
 "countdown.label.bonus" = "Borrowed time—make it count";
 "countdown.label.remaining" = "Your remaining days to spend";
 "accessibility.bonus-days" = "Bonus days gained";

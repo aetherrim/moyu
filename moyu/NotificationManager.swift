@@ -9,14 +9,15 @@ final class NotificationManager {
     private init() {}
 
     private static let reminderIdentifier = "daily.reminder.notification"
-    private static let schedulingWindowDays = 30
+    private static let schedulingWindowWeekdays = 40
+    private static let refillReminderWeekdays = 10
 
     private static func reminderIdentifier(for offset: Int) -> String {
         "\(reminderIdentifier).\(offset)"
     }
 
     private static func reminderIdentifiersToClear() -> [String] {
-        [reminderIdentifier] + (0..<schedulingWindowDays).map { reminderIdentifier(for: $0) }
+        [reminderIdentifier] + (0..<schedulingWindowWeekdays).map { reminderIdentifier(for: $0) }
     }
 
     func requestAuthorization() async -> Bool {
@@ -50,14 +51,25 @@ final class NotificationManager {
         let identifiersToClear = Self.reminderIdentifiersToClear()
         center.removePendingNotificationRequests(withIdentifiers: identifiersToClear)
 
-        for offset in 0..<Self.schedulingWindowDays {
-            guard let fireDate = calendar.date(byAdding: .day, value: offset, to: nextFireDate) else { continue }
+        var fireDate = nextFireDate
+        var scheduledCount = 0
+        let refillReminderStartsAt = Self.schedulingWindowWeekdays - Self.refillReminderWeekdays
+
+        while scheduledCount < Self.schedulingWindowWeekdays {
+            defer {
+                fireDate = calendar.date(byAdding: .day, value: 1, to: fireDate) ?? fireDate
+            }
+
             guard Self.isWeekday(fireDate, calendar: calendar) else { continue }
 
-            let quote = quoteProvider.quote(for: fireDate)
             let content = UNMutableNotificationContent()
             content.title = Self.localizedTitle(for: language)
-            content.body = quote.text(for: language)
+            if scheduledCount >= refillReminderStartsAt {
+                content.body = Self.localizedRefillReminderBody()
+            } else {
+                let quote = quoteProvider.quote(for: fireDate)
+                content.body = quote.text(for: language)
+            }
             content.sound = .default
 
             var fireComponents = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: fireDate)
@@ -65,7 +77,7 @@ final class NotificationManager {
             fireComponents.timeZone = calendar.timeZone
 
             let trigger = UNCalendarNotificationTrigger(dateMatching: fireComponents, repeats: false)
-            let identifier = Self.reminderIdentifier(for: offset)
+            let identifier = Self.reminderIdentifier(for: scheduledCount)
             let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
 
             center.add(request) { error in
@@ -73,6 +85,8 @@ final class NotificationManager {
                     print("Failed to schedule notification (\(identifier)): \(error)")
                 }
             }
+
+            scheduledCount += 1
         }
     }
 
@@ -113,5 +127,9 @@ final class NotificationManager {
 
     private static func localizedTitle(for language: AppLanguage) -> String {
         NSLocalizedString("notification.title", comment: "")
+    }
+
+    private static func localizedRefillReminderBody() -> String {
+        NSLocalizedString("notification.refill.body", comment: "")
     }
 }

@@ -5,6 +5,7 @@
 "sex.male" = "男性";
 "sex.female" = "女性";
 "notification.title" = "毎日の死のリマインダー";
+"notification.refill.body" = "少し休んで、今日の死のリマインダーを見てください。";
 "countdown.label.bonus" = "借りものの時間、無駄にしないで";
 "countdown.label.remaining" = "あなたが使える残りの日数";
 "accessibility.bonus-days" = "延長された日数";
