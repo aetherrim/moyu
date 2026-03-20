@@ -2,35 +2,39 @@ import Combine
 import Foundation
 import SwiftUI
 import UserNotifications
+import WidgetKit
 
 @MainActor
 final class AppState: ObservableObject {
     @Published var selectedLanguage: AppLanguage {
         didSet {
             guard !isInitializing else { return }
-            defaults.set(selectedLanguage.rawValue, forKey: Keys.language)
+            defaults.set(selectedLanguage.rawValue, forKey: SharedDefaults.Keys.language)
             refreshNotificationSchedule()
+            refreshWidgets()
         }
     }
 
     @Published var biologicalSex: BiologicalSex {
         didSet {
             guard !isInitializing else { return }
-            defaults.set(biologicalSex.rawValue, forKey: Keys.sex)
+            defaults.set(biologicalSex.rawValue, forKey: SharedDefaults.Keys.sex)
+            refreshWidgets()
         }
     }
 
     @Published var birthDate: Date {
         didSet {
             guard !isInitializing else { return }
-            defaults.set(birthDate.timeIntervalSince1970, forKey: Keys.birthDate)
+            defaults.set(birthDate.timeIntervalSince1970, forKey: SharedDefaults.Keys.birthDate)
+            refreshWidgets()
         }
     }
 
     @Published var notificationEnabled: Bool {
         didSet {
             guard !isInitializing else { return }
-            defaults.set(notificationEnabled, forKey: Keys.notificationEnabled)
+            defaults.set(notificationEnabled, forKey: SharedDefaults.Keys.notificationEnabled)
             refreshNotificationSchedule()
         }
     }
@@ -38,7 +42,7 @@ final class AppState: ObservableObject {
     @Published var notificationTime: Date {
         didSet {
             guard !isInitializing else { return }
-            defaults.set(notificationTime.timeIntervalSinceReferenceDate, forKey: Keys.notificationTime)
+            defaults.set(notificationTime.timeIntervalSinceReferenceDate, forKey: SharedDefaults.Keys.notificationTime)
             refreshNotificationSchedule()
         }
     }
@@ -46,7 +50,7 @@ final class AppState: ObservableObject {
     @Published var hasCompletedOnboarding: Bool {
         didSet {
             guard !isInitializing else { return }
-            defaults.set(hasCompletedOnboarding, forKey: Keys.hasCompletedOnboarding)
+            defaults.set(hasCompletedOnboarding, forKey: SharedDefaults.Keys.hasCompletedOnboarding)
         }
     }
 
@@ -58,27 +62,28 @@ final class AppState: ObservableObject {
     private var notificationAuthorizationStatus: UNAuthorizationStatus = .notDetermined
 
     init(
-        defaults: UserDefaults = .standard,
+        defaults: UserDefaults = SharedDefaults.userDefaults,
         notificationManager: NotificationManager = .shared,
         dailyQuoteProvider: DailyQuoteProviding = DailyQuoteProvider(),
         countdownCalculator: CountdownCalculator = CountdownCalculator()
     ) {
+        SharedDefaults.migrateIfNeeded()
         self.defaults = defaults
         self.notificationManager = notificationManager
         self.dailyQuoteProvider = dailyQuoteProvider
         self.countdownCalculator = countdownCalculator
 
-        let storedLanguage = defaults.string(forKey: Keys.language)
+        let storedLanguage = defaults.string(forKey: SharedDefaults.Keys.language)
         self.selectedLanguage = AppLanguage(rawValue: storedLanguage ?? "") ?? AppLanguage.resolvedDefault()
 
-        if let storedSex = defaults.string(forKey: Keys.sex), let sex = BiologicalSex(rawValue: storedSex) {
+        if let storedSex = defaults.string(forKey: SharedDefaults.Keys.sex), let sex = BiologicalSex(rawValue: storedSex) {
             self.biologicalSex = sex
         } else {
             self.biologicalSex = .male
         }
 
-        if defaults.object(forKey: Keys.birthDate) != nil {
-            let timestamp = defaults.double(forKey: Keys.birthDate)
+        if defaults.object(forKey: SharedDefaults.Keys.birthDate) != nil {
+            let timestamp = defaults.double(forKey: SharedDefaults.Keys.birthDate)
             self.birthDate = Date(timeIntervalSince1970: timestamp)
         } else {
             var components = DateComponents()
@@ -89,20 +94,20 @@ final class AppState: ObservableObject {
             self.birthDate = components.date ?? Date(timeIntervalSince1970: 631152000) // 1990-01-01
         }
 
-        if defaults.object(forKey: Keys.notificationTime) != nil {
-            let time = defaults.double(forKey: Keys.notificationTime)
+        if defaults.object(forKey: SharedDefaults.Keys.notificationTime) != nil {
+            let time = defaults.double(forKey: SharedDefaults.Keys.notificationTime)
             self.notificationTime = Date(timeIntervalSinceReferenceDate: time)
         } else {
             self.notificationTime = Self.defaultNotificationTime
         }
 
-        if defaults.object(forKey: Keys.notificationEnabled) != nil {
-            self.notificationEnabled = defaults.bool(forKey: Keys.notificationEnabled)
+        if defaults.object(forKey: SharedDefaults.Keys.notificationEnabled) != nil {
+            self.notificationEnabled = defaults.bool(forKey: SharedDefaults.Keys.notificationEnabled)
         } else {
             self.notificationEnabled = true
         }
 
-        self.hasCompletedOnboarding = defaults.bool(forKey: Keys.hasCompletedOnboarding)
+        self.hasCompletedOnboarding = defaults.bool(forKey: SharedDefaults.Keys.hasCompletedOnboarding)
 
         self.isInitializing = false
 
@@ -164,15 +169,6 @@ final class AppState: ObservableObject {
 }
 
 private extension AppState {
-    enum Keys {
-        static let language = "settings.language"
-        static let sex = "settings.sex"
-        static let birthDate = "settings.birthDate"
-        static let notificationEnabled = "settings.notificationEnabled"
-        static let notificationTime = "settings.notificationTime"
-        static let hasCompletedOnboarding = "settings.onboardingComplete"
-    }
-
     static var defaultNotificationTime: Date {
         var components = DateComponents()
         components.hour = 10
@@ -181,6 +177,10 @@ private extension AppState {
         components.calendar = Calendar(identifier: .gregorian)
         components.timeZone = TimeZone.current
         return components.date ?? Date()
+    }
+
+    func refreshWidgets() {
+        WidgetCenter.shared.reloadTimelines(ofKind: "moyuWidget")
     }
 
     private func configureNotificationsOnLaunch() async {

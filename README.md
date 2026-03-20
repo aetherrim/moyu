@@ -5,6 +5,7 @@ Quiet Quitting Today is a lightweight SwiftUI app that turns life expectancy dat
 ## What You Get
 - **Death Countdown** – Enter birth date and biological sex to see days left (or bonus days if you beat the odds).
 - **Daily Quotes** – Rotating humor-filled Chinese/English lines to keep the tone light.
+- **Home Screen Widget** – Shows days left + today’s quote at a glance.
 - **Local Reminders** – A single daily notification with your quote, configurable time or disable entirely.
 - **Onboarding + Settings** – Minimal wizard for first launch, full editing afterward.
 - **Localization** – Simplified Chinese and English across UI and content.
@@ -12,10 +13,13 @@ Quiet Quitting Today is a lightweight SwiftUI app that turns life expectancy dat
 
 ## Project Layout
 ```
-moyu/
+Shared/
 ├── CoreModels.swift        # Pure data types, life expectancy config, countdown calculator
-├── AppState.swift          # ObservableObject: persistence, scheduling, onboarding state
 ├── QuoteRepository.swift   # Deterministic daily quote selection
+├── DailyQuoteProvider.swift # Daily quote caching helper
+└── SharedDefaults.swift    # App group-backed UserDefaults keys & migration
+moyu/
+├── AppState.swift          # ObservableObject: persistence, scheduling, onboarding state
 ├── NotificationManager.swift # UNUserNotificationCenter wrapper
 ├── CountdownView.swift     # Main screen with countdown + quote + quick actions
 ├── OnboardingView.swift    # Three-step intro for language, profile, notifications
@@ -25,7 +29,17 @@ moyu/
 ├── Base.lproj/Localizable.strings
 ├── en.lproj/Localizable.strings
 └── zh-Hans.lproj/Localizable.strings
+moyuWidget/
+├── moyuWidget.swift        # Widget timeline + view
+└── (uses ../moyuWidget-Info.plist)
 ```
+
+## Home Screen Widget
+The widget uses an app group (`group.com.aetherrim.moyuapp`) to read your profile, then renders:
+- Remaining days (or bonus days if you beat the odds)
+- Today’s daily quote
+
+Add it from the iOS widget gallery as “Quiet Quitting Today”.
 
 ### Architecture Notes
 - **State Management**: A single `AppState` observable object holds user choices, computes countdown, and schedules notifications. Views share it via `@EnvironmentObject`.
