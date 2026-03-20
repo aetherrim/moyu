@@ -2,7 +2,6 @@ import Foundation
 
 protocol DailyQuoteProviding {
     func quote(for date: Date) -> Quote
-    func randomQuotes(count: Int) -> [Quote]
 }
 
 final class DailyQuoteProvider: DailyQuoteProviding {
@@ -27,9 +26,5 @@ final class DailyQuoteProvider: DailyQuoteProviding {
         cachedDate = normalizedDate
         cachedQuote = nextQuote
         return nextQuote
-    }
-
-    func randomQuotes(count: Int) -> [Quote] {
-        repository.randomQuotes(count: count)
     }
 }

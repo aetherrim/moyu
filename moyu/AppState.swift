@@ -134,6 +134,11 @@ final class AppState: ObservableObject {
         return granted
     }
 
+    func refreshNotificationsFromBackground() async {
+        await updateNotificationAuthorizationStatus()
+        refreshNotificationSchedule()
+    }
+
     private func refreshNotificationSchedule() {
         guard !isInitializing else { return }
         guard notificationEnabled else {
