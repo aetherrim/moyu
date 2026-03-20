@@ -7,6 +7,7 @@ struct MoyuWidgetEntry: TimelineEntry {
     let isBonus: Bool
     let quoteText: String
     let language: AppLanguage
+    let progress: Double
 
     var absoluteDays: Int { abs(daysLeft) }
 }
@@ -18,7 +19,8 @@ struct MoyuWidgetProvider: TimelineProvider {
             daysLeft: 12345,
             isBonus: false,
             quoteText: "Work is for survival; 'slacking' is for living.",
-            language: .english
+            language: .english,
+            progress: 0.42
         )
     }
 
@@ -38,14 +40,27 @@ struct MoyuWidgetProvider: TimelineProvider {
         let calculator = CountdownCalculator()
         let result = calculator.result(birthDate: data.birthDate, sex: data.sex, referenceDate: date)
         let quote = DailyQuoteProvider().quote(for: date).text(for: data.language)
+        let progress = Self.lifeProgress(birthDate: data.birthDate, deathDate: result.deathDate, referenceDate: date)
 
         return MoyuWidgetEntry(
             date: date,
             daysLeft: result.daysLeft,
             isBonus: result.isBonus,
             quoteText: quote,
-            language: data.language
+            language: data.language,
+            progress: progress
         )
+    }
+
+    private static func lifeProgress(birthDate: Date, deathDate: Date, referenceDate: Date) -> Double {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: birthDate)
+        let end = calendar.startOfDay(for: deathDate)
+        let now = calendar.startOfDay(for: referenceDate)
+
+        let totalDays = max(1, calendar.dateComponents([.day], from: start, to: end).day ?? 1)
+        let elapsedDays = min(totalDays, max(0, calendar.dateComponents([.day], from: start, to: now).day ?? 0))
+        return Double(elapsedDays) / Double(totalDays)
     }
 }
 
@@ -53,33 +68,69 @@ struct MoyuWidgetView: View {
     let entry: MoyuWidgetEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline, spacing: 6) {
-                Text(titleText)
-                    .font(.caption)
-                    .foregroundStyle(accentColor)
-                Text("\(entry.absoluteDays)")
-                    .font(.system(size: 30, weight: .bold, design: .rounded))
-                    .foregroundStyle(accentColor)
-                Text(unitText)
-                    .font(.headline)
-                    .foregroundStyle(accentColor)
-            }
+        ZStack(alignment: .topLeading) {
+            Image(systemName: "hourglass")
+                .font(.system(size: 22, weight: .light))
+                .foregroundStyle(accentColor.opacity(0.45))
+                .padding(.leading, 14)
+                .padding(.top, 12)
 
-            Text(entry.quoteText)
-                .font(.footnote)
-                .foregroundStyle(.primary)
-                .lineLimit(4)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .layoutPriority(1)
+            VStack(alignment: .center, spacing: 12) {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text("\(entry.absoluteDays)")
+                        .font(.system(size: 36, weight: .semibold, design: .serif))
+                        .foregroundStyle(accentColor)
+                    Text(unitText)
+                        .font(.headline)
+                        .foregroundStyle(accentColor)
+                }
+
+                ProgressBar(value: entry.progress, tint: accentColor)
+                    .frame(height: 3)
+                    .padding(.horizontal, 28)
+
+                Text(entry.quoteText)
+                    .font(.footnote)
+                    .foregroundStyle(Color(red: 0.30, green: 0.30, blue: 0.35))
+                    .lineLimit(4)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .layoutPriority(1)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.horizontal, 22)
+            .padding(.vertical, 16)
         }
-        .padding(16)
-        .containerBackground(LinearGradient(
-            colors: [Color(red: 0.96, green: 0.97, blue: 0.99), Color(red: 0.91, green: 0.93, blue: 0.98)],
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        ), for: .widget)
+        .containerBackground(for: .widget) {
+            widgetBackground
+        }
+    }
+
+    private var widgetBackground: some View {
+        ZStack {
+            Color(red: 0.97, green: 0.96, blue: 0.94)
+
+            RadialGradient(
+                colors: [Color(red: 0.85, green: 0.80, blue: 0.93).opacity(0.6), .clear],
+                center: .topLeading,
+                startRadius: 0,
+                endRadius: 240
+            )
+
+            RadialGradient(
+                colors: [Color(red: 0.78, green: 0.90, blue: 0.85).opacity(0.5), .clear],
+                center: .bottomTrailing,
+                startRadius: 0,
+                endRadius: 220
+            )
+
+            RadialGradient(
+                colors: [Color(red: 0.94, green: 0.84, blue: 0.86).opacity(0.35), .clear],
+                center: UnitPoint(x: 0.8, y: 0.3),
+                startRadius: 0,
+                endRadius: 160
+            )
+        }
     }
 
     private var titleText: String {
@@ -140,6 +191,24 @@ struct MoyuWidgetView: View {
         case "bonus_title": return "ボーナス日数"
         case "days_unit": return "日"
         default: return ""
+        }
+    }
+}
+
+private struct ProgressBar: View {
+    let value: Double
+    let tint: Color
+
+    var body: some View {
+        GeometryReader { proxy in
+            let width = max(0, min(proxy.size.width, proxy.size.width * CGFloat(value)))
+            ZStack(alignment: .leading) {
+                Capsule()
+                    .fill(Color.black.opacity(0.06))
+                Capsule()
+                    .fill(tint)
+                    .frame(width: width)
+            }
         }
     }
 }
