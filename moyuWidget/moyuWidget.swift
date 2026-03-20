@@ -65,45 +65,84 @@ struct MoyuWidgetProvider: TimelineProvider {
 }
 
 struct MoyuWidgetView: View {
+    @Environment(\.widgetFamily) var family
     let entry: MoyuWidgetEntry
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Image(systemName: "hourglass")
-                .font(.system(size: 22, weight: .light))
-                .foregroundStyle(accentColor.opacity(0.45))
-                .padding(.leading, 14)
-                .padding(.top, 12)
+        Group {
+            if family == .systemSmall {
+                ZStack(alignment: .topLeading) {
+                    Image(systemName: "hourglass")
+                        .font(.system(size: 18, weight: .light))
+                        .foregroundStyle(accentColor.opacity(0.45))
+                        .padding(.leading, 12)
+                        .padding(.top, 10)
 
-            VStack(alignment: .center, spacing: 12) {
-                HStack(alignment: .firstTextBaseline, spacing: 6) {
-                    Text("\(entry.absoluteDays)")
-                        .font(.system(size: 36, weight: .semibold, design: .serif))
-                        .foregroundStyle(accentColor)
-                    Text(unitText)
-                        .font(.headline)
-                        .foregroundStyle(accentColor)
+                    smallBody
                 }
+            } else {
+                ZStack(alignment: .topLeading) {
+                    Image(systemName: "hourglass")
+                        .font(.system(size: 22, weight: .light))
+                        .foregroundStyle(accentColor.opacity(0.45))
+                        .padding(.leading, 14)
+                        .padding(.top, 12)
 
-                ProgressBar(value: entry.progress, tint: accentColor)
-                    .frame(height: 3)
-                    .padding(.horizontal, 28)
-
-                Text(entry.quoteText)
-                    .font(.footnote)
-                    .foregroundStyle(Color(red: 0.30, green: 0.30, blue: 0.35))
-                    .lineLimit(4)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .layoutPriority(1)
+                    mediumBody
+                }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding(.horizontal, 22)
-            .padding(.vertical, 16)
         }
         .containerBackground(for: .widget) {
             widgetBackground
         }
+    }
+
+    private var smallBody: some View {
+        ZStack {
+            Circle()
+                .stroke(accentColor.opacity(0.15), lineWidth: 8)
+
+            Circle()
+                .trim(from: 0, to: CGFloat(entry.progress))
+                .stroke(accentColor, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+
+            Text("\(entry.absoluteDays)")
+                .font(.system(size: 15, weight: .semibold, design: .serif))
+                .foregroundStyle(accentColor)
+                .minimumScaleFactor(0.4)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(24)
+    }
+
+    private var mediumBody: some View {
+        VStack(alignment: .center, spacing: 12) {
+            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                Text("\(entry.absoluteDays)")
+                    .font(.system(size: 36, weight: .semibold, design: .serif))
+                    .foregroundStyle(accentColor)
+                Text(unitText)
+                    .font(.headline)
+                    .foregroundStyle(accentColor)
+            }
+
+            ProgressBar(value: entry.progress, tint: accentColor)
+                .frame(height: 3)
+                .padding(.horizontal, 28)
+
+            Text(entry.quoteText)
+                .font(.footnote)
+                .foregroundStyle(Color(red: 0.30, green: 0.30, blue: 0.35))
+                .lineLimit(4)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .layoutPriority(1)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.horizontal, 22)
+        .padding(.vertical, 16)
     }
 
     private var widgetBackground: some View {
