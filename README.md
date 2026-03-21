@@ -1,57 +1,77 @@
-# Quiet Quitting Today (iOS)
+# moyu (iOS)
 
-Quiet Quitting Today is a lightweight SwiftUI app that turns life expectancy data into a daily reminder to guard your time. The app focuses on a delightful countdown, bilingual copy, and fully offline privacy.
+`moyu` is a SwiftUI iPhone app that turns life expectancy data into a blunt daily countdown. It stays fully offline, stores everything locally, and shares data with a home screen widget through an app group.
 
-## What You Get
-- **Death Countdown** – Enter birth date and biological sex to see days left (or bonus days if you beat the odds).
-- **Daily Quotes** – Rotating humor-filled Chinese/English lines to keep the tone light.
-- **Home Screen Widget** – Shows days left + today’s quote at a glance.
-- **Local Reminders** – A single daily notification with your quote, configurable time or disable entirely.
-- **Onboarding + Settings** – Minimal wizard for first launch, full editing afterward.
-- **Localization** – Simplified Chinese and English across UI and content.
-- **No Network, No Tracking** – Everything persists locally via `UserDefaults`.
+## Current Feature Set
+- Countdown based on birth date and biological sex using a fixed CDC 2022 life expectancy baseline.
+- "Days left" and "bonus days" modes, depending on whether the estimated date has passed.
+- Daily rotating quotes with built-in translations for English, Simplified Chinese, Spanish, and Japanese.
+- Three-step onboarding for profile, language, and notification permission.
+- Settings screen for editing profile data, language, and reminder time.
+- Local notifications scheduled on weekdays only.
+- Background refresh task that periodically rebuilds the notification queue.
+- WidgetKit extension with `systemSmall` and `systemMedium` widgets.
+- Fully offline persistence via `UserDefaults` in the shared app group `group.com.aetherrim.moyuapp`.
+
+## Platform
+- iPhone only
+- iOS 18.0+
+- Xcode 16+
+- SwiftUI + WidgetKit + BackgroundTasks + UserNotifications
 
 ## Project Layout
-```
+```text
 Shared/
-├── CoreModels.swift        # Pure data types, life expectancy config, countdown calculator
-├── QuoteRepository.swift   # Deterministic daily quote selection
-├── DailyQuoteProvider.swift # Daily quote caching helper
-└── SharedDefaults.swift    # App group-backed UserDefaults keys & migration
+├── CoreModels.swift          # Language enum, life expectancy config, countdown calculator, date bounds
+├── QuoteRepository.swift     # 100 localized quotes + deterministic quote-of-the-day selection
+├── DailyQuoteProvider.swift  # Per-day quote caching wrapper
+└── SharedDefaults.swift      # Shared app-group defaults keys and migration
+
 moyu/
-├── AppState.swift          # ObservableObject: persistence, scheduling, onboarding state
-├── NotificationManager.swift # UNUserNotificationCenter wrapper
-├── CountdownView.swift     # Main screen with countdown + quote + quick actions
-├── OnboardingView.swift    # Three-step intro for language, profile, notifications
-├── SettingsView.swift      # Form-based editing for all preferences
-├── ContentView.swift       # Root switch between onboarding and countdown
-├── moyuApp.swift           # App entry point, injects AppState & locale
-├── Base.lproj/Localizable.strings
-├── en.lproj/Localizable.strings
-└── zh-Hans.lproj/Localizable.strings
+├── AppState.swift            # Persistent app state, widget reloads, notification coordination
+├── BackgroundRefreshManager.swift
+├── NotificationManager.swift
+├── ContentView.swift         # Switches between onboarding and main experience
+├── OnboardingView.swift      # Profile, language, notifications
+├── CountdownView.swift       # Main countdown screen
+├── SettingsView.swift        # Editable profile/language/notification settings
+├── moyuApp.swift             # App entry point
+├── Assets.xcassets/
+├── Base.lproj/
+├── en.lproj/
+├── es.lproj/
+├── ja.lproj/
+└── zh-Hans.lproj/
+
 moyuWidget/
-├── moyuWidget.swift        # Widget timeline + view
-└── (uses ../moyuWidget-Info.plist)
+├── moyuWidget.swift          # Widget timeline, widget views, shared-data loading
+└── moyuWidget.entitlements
+
+moyuTests/                    # Xcode Testing template, currently minimal
+moyuUITests/                  # Basic UI test templates
 ```
 
-## Home Screen Widget
-The widget uses an app group (`group.com.aetherrim.moyuapp`) to read your profile, then renders:
-- Remaining days (or bonus days if you beat the odds)
-- Today’s daily quote
-
-Add it from the iOS widget gallery as “Quiet Quitting Today”.
-
-### Architecture Notes
-- **State Management**: A single `AppState` observable object holds user choices, computes countdown, and schedules notifications. Views share it via `@EnvironmentObject`.
-- **Domain Isolation**: Calculations and constants live in `CoreModels.swift`; side-effect helpers (quotes, notifications) are standalone structs so they can be swapped or tested.
-- **SwiftUI-first**: All screens are pure SwiftUI; the root `ContentView` decides between onboarding and the main experience.
-- **Persistence**: `UserDefaults` stores primitives, avoiding external dependencies. Notification scheduling updates whenever relevant settings change.
+## How It Works
+- `AppState` is the single source of truth for selected language, birth date, biological sex, onboarding state, and reminder settings.
+- `CountdownCalculator` derives the estimated death date from the fixed baseline in `Shared/CoreModels.swift`.
+- `QuoteRepository` picks a deterministic quote for each calendar day, anchored from `2024-01-01`.
+- `NotificationManager` clears and rebuilds pending reminder requests, scheduling the next 40 weekdays at the chosen time.
+- `BackgroundRefreshManager` registers `com.aetherrim.moyuapp.notification-refresh` and resubmits the refresh request so reminders stay populated.
+- The widget reads the same shared defaults and renders either a compact ring or a medium card with countdown progress and the daily quote.
 
 ## Getting Started
-1. Open `moyu.xcodeproj` in Xcode 16 or newer.
-2. Build & run the `moyu` scheme on iOS 16+ simulator or device.
-3. Step through onboarding: choose language, provide birth date & sex, allow notifications if desired.
-4. Enjoy the real-time countdown; visit Settings to tweak reminders or information anytime.
+1. Open `moyu.xcodeproj` in Xcode.
+2. Select the `moyu` scheme and run on an iOS 18 simulator or device.
+3. Complete onboarding: choose profile values, choose a language, and optionally allow notifications.
+4. Add the widget from the iOS widget gallery if you want the home screen view.
 
-## Notification Copy
-- Refill reminder (zh-Hans): `休息一下，看看今天的死亡提醒`
+## Configuration Notes
+- The app and widget both depend on the app group `group.com.aetherrim.moyuapp`.
+- If you fork this project under a different Apple developer account, update the bundle identifiers, app group, and entitlements together.
+- Notification delivery depends on user permission and iOS background scheduling behavior.
+
+## Data and Privacy
+- No network calls
+- No analytics
+- No third-party dependencies
+- All persisted data stays on-device
