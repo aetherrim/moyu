@@ -2,7 +2,6 @@ import SwiftUI
 
 struct LifeChecklistView: View {
     @EnvironmentObject private var appState: AppState
-    @Environment(\.dismiss) private var dismiss
     @State private var showingAddItemAlert = false
     @State private var newItemTitle = ""
 
@@ -37,6 +36,7 @@ struct LifeChecklistView: View {
                             }
                             .buttonStyle(.plain)
                         }
+                        .onMove(perform: appState.moveLifeChecklistItems)
                         .onDelete(perform: appState.deleteLifeChecklistItems)
                     }
                     .listStyle(.plain)
@@ -50,7 +50,9 @@ struct LifeChecklistView: View {
                         .foregroundStyle(.secondary)
                 }
 
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    EditButton()
+
                     Button {
                         newItemTitle = ""
                         showingAddItemAlert = true
@@ -58,12 +60,6 @@ struct LifeChecklistView: View {
                         Image(systemName: "plus")
                     }
                     .accessibilityLabel(Text("lifeChecklist.add.button"))
-                }
-
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("button.done") {
-                        dismiss()
-                    }
                 }
             }
             .alert("lifeChecklist.add.title", isPresented: $showingAddItemAlert) {

@@ -140,10 +140,6 @@ final class AppState: ObservableObject {
 
     var sortedLifeChecklistItems: [LifeChecklistItem] {
         lifeChecklistItems.sorted { lhs, rhs in
-            if lhs.isCompleted != rhs.isCompleted {
-                return !lhs.isCompleted && rhs.isCompleted
-            }
-
             if lhs.sortOrder != rhs.sortOrder {
                 return lhs.sortOrder < rhs.sortOrder
             }
@@ -179,6 +175,17 @@ final class AppState: ObservableObject {
     func deleteLifeChecklistItems(at offsets: IndexSet) {
         let idsToDelete = offsets.map { sortedLifeChecklistItems[$0].id }
         lifeChecklistItems.removeAll { idsToDelete.contains($0.id) }
+    }
+
+    func moveLifeChecklistItems(from offsets: IndexSet, to destination: Int) {
+        var reorderedItems = sortedLifeChecklistItems
+        reorderedItems.move(fromOffsets: offsets, toOffset: destination)
+
+        for index in reorderedItems.indices {
+            reorderedItems[index].sortOrder = index
+        }
+
+        lifeChecklistItems = reorderedItems
     }
 
     func toggleLanguage() {
