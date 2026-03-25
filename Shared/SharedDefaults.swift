@@ -18,7 +18,8 @@ enum SharedDefaults {
             Keys.birthDate,
             Keys.notificationEnabled,
             Keys.notificationTime,
-            Keys.hasCompletedOnboarding
+            Keys.hasCompletedOnboarding,
+            Keys.lifeChecklistItems
         ]
 
         for key in keysToMigrate {
@@ -40,6 +41,7 @@ extension SharedDefaults {
         static let notificationEnabled = "settings.notificationEnabled"
         static let notificationTime = "settings.notificationTime"
         static let hasCompletedOnboarding = "settings.onboardingComplete"
+        static let lifeChecklistItems = "lifeChecklist.items"
         static let didMigrateToAppGroup = "settings.didMigrateToAppGroup"
     }
 }

@@ -14,6 +14,7 @@
 "button.language" = "Cambiar idioma";
 "accessibility.open-settings" = "Abrir ajustes";
 "accessibility.toggle-language" = "Cambiar idioma";
+"accessibility.open-life-checklist" = "Abrir lista de vida";
 "settings.title" = "Ajustes";
 "settings.profile.title" = "Perfil";
 "settings.profile.sex" = "Sexo biológico";
@@ -28,6 +29,8 @@
 "settings.notifications.denied.title" = "Notificaciones desactivadas";
 "settings.notifications.denied.message" = "Activa las notificaciones en Ajustes de iOS para recibir recordatorios diarios.";
 "button.done" = "Listo";
+"button.add" = "Añadir";
+"button.cancel" = "Cancelar";
 "button.ok" = "Aceptar";
 "button.back" = "Atrás";
 "button.next" = "Siguiente";
@@ -41,3 +44,9 @@
 "onboarding.notifications.allow" = "Permitir recordatorio diario";
 "onboarding.notifications.enabled-status" = "Recordatorios listos";
 "onboarding.notifications.hint" = "Puedes cambiar u apagar los recordatorios cuando quieras en Ajustes.";
+"lifeChecklist.title" = "Lista de vida";
+"lifeChecklist.empty.title" = "Aún no hay lista de vida";
+"lifeChecklist.empty.subtitle" = "Pulsa el botón más para añadir algo que de verdad quieras hacer.";
+"lifeChecklist.add.title" = "Añadir elemento a la lista de vida";
+"lifeChecklist.add.placeholder" = "Por ejemplo: viajar solo a una ciudad nueva";
+"lifeChecklist.add.button" = "Añadir elemento a la lista de vida";

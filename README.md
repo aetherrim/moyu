@@ -5,6 +5,7 @@
 ## Current Feature Set
 - Countdown based on birth date and biological sex using a fixed CDC 2022 life expectancy baseline.
 - "Days left" and "bonus days" modes, depending on whether the estimated date has passed.
+- Life checklist feature with local persistence, completion tracking, and a minimal `3/10` progress indicator on the main screen.
 - Daily rotating quotes with built-in translations for English, Simplified Chinese, Spanish, and Japanese.
 - Three-step onboarding for profile, language, and notification permission.
 - Settings screen for editing profile data, language, and reminder time.
@@ -23,6 +24,7 @@
 ```text
 Shared/
 ├── CoreModels.swift          # Language enum, life expectancy config, countdown calculator, date bounds
+├── LifeChecklistItem.swift   # Codable life checklist item model
 ├── QuoteRepository.swift     # 100 localized quotes + deterministic quote-of-the-day selection
 ├── DailyQuoteProvider.swift  # Per-day quote caching wrapper
 └── SharedDefaults.swift      # Shared app-group defaults keys and migration
@@ -34,6 +36,7 @@ moyu/
 ├── ContentView.swift         # Switches between onboarding and main experience
 ├── OnboardingView.swift      # Profile, language, notifications
 ├── CountdownView.swift       # Main countdown screen
+├── LifeChecklistView.swift   # Add/toggle/delete life checklist items
 ├── SettingsView.swift        # Editable profile/language/notification settings
 ├── moyuApp.swift             # App entry point
 ├── Assets.xcassets/
@@ -52,8 +55,9 @@ moyuUITests/                  # Basic UI test templates
 ```
 
 ## How It Works
-- `AppState` is the single source of truth for selected language, birth date, biological sex, onboarding state, and reminder settings.
+- `AppState` is the single source of truth for selected language, birth date, biological sex, onboarding state, reminder settings, and life checklist items.
 - `CountdownCalculator` derives the estimated death date from the fixed baseline in `Shared/CoreModels.swift`.
+- `LifeChecklistItem` entries are encoded into shared `UserDefaults`, and `AppState` derives the completed/total progress string shown on the main screen.
 - `QuoteRepository` picks a deterministic quote for each calendar day, anchored from `2024-01-01`.
 - `NotificationManager` clears and rebuilds pending reminder requests, scheduling the next 40 weekdays at the chosen time.
 - `BackgroundRefreshManager` registers `com.aetherrim.moyuapp.notification-refresh` and resubmits the refresh request so reminders stay populated.
@@ -74,4 +78,5 @@ moyuUITests/                  # Basic UI test templates
 - No network calls
 - No analytics
 - No third-party dependencies
+- User profile data and life checklist items are persisted locally in shared app-group `UserDefaults`
 - All persisted data stays on-device

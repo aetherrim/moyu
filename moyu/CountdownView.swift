@@ -5,6 +5,7 @@ struct CountdownView: View {
     @EnvironmentObject private var appState: AppState
     @State private var now = Date()
     @State private var showingSettings = false
+    @State private var showingLifeChecklist = false
 
     private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
 
@@ -17,57 +18,81 @@ struct CountdownView: View {
     }
 
     var body: some View {
-        VStack(spacing: 32) {
-            Spacer(minLength: 24)
+        ZStack(alignment: .topTrailing) {
+            Button {
+                showingLifeChecklist = true
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "checklist")
+                        .imageScale(.medium)
 
-            VStack(spacing: 12) {
-                Text(countdown.isBonus ? LocalizedStringKey("countdown.label.bonus") : LocalizedStringKey("countdown.label.remaining"))
-                    .font(.headline)
-                    .foregroundStyle(.secondary)
+                    Text(appState.lifeChecklistProgressText)
+                        .font(.subheadline.weight(.medium))
+                        .monospacedDigit()
+                }
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 4)
+                .padding(.vertical, 8)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(LocalizedStringKey("accessibility.open-life-checklist"))
+            .accessibilityValue(Text(appState.lifeChecklistProgressText))
+            .padding(.top, 18)
+            .padding(.trailing, 20)
+
+            VStack(spacing: 32) {
+                Spacer(minLength: 64)
+
+                VStack(spacing: 12) {
+                    Text(countdown.isBonus ? LocalizedStringKey("countdown.label.bonus") : LocalizedStringKey("countdown.label.remaining"))
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                        .transition(.opacity)
+
+                    Text("\(countdown.absoluteDays)")
+                        .font(.system(size: 88, weight: .bold, design: .rounded))
+                        .monospacedDigit()
+                        .minimumScaleFactor(0.5)
+                        .frame(maxWidth: .infinity)
+                        .animation(.spring(response: 0.35, dampingFraction: 0.7), value: countdown.absoluteDays)
+                        .accessibilityLabel(countdown.isBonus ? LocalizedStringKey("accessibility.bonus-days") : LocalizedStringKey("accessibility.days-left"))
+                }
+                .padding(.horizontal)
+
+                Text(quoteText)
+                    .font(.title3)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
                     .transition(.opacity)
 
-                Text("\(countdown.absoluteDays)")
-                    .font(.system(size: 88, weight: .bold, design: .rounded))
-                    .monospacedDigit()
-                    .minimumScaleFactor(0.5)
-                    .frame(maxWidth: .infinity)
-                    .animation(.spring(response: 0.35, dampingFraction: 0.7), value: countdown.absoluteDays)
-                    .accessibilityLabel(countdown.isBonus ? LocalizedStringKey("accessibility.bonus-days") : LocalizedStringKey("accessibility.days-left"))
-            }
-            .padding(.horizontal)
+                Spacer(minLength: 24)
 
-            Text(quoteText)
-                .font(.title3)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-                .transition(.opacity)
+                HStack(spacing: 24) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Label(LocalizedStringKey("button.settings"), systemImage: "gearshape")
+                            .labelStyle(.iconOnly)
+                            .font(.title2)
+                            .padding(16)
+                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    }
+                    .accessibilityLabel(LocalizedStringKey("accessibility.open-settings"))
 
-            Spacer(minLength: 24)
-
-            HStack(spacing: 24) {
-                Button {
-                    showingSettings = true
-                } label: {
-                    Label(LocalizedStringKey("button.settings"), systemImage: "gearshape")
-                        .labelStyle(.iconOnly)
-                        .font(.title2)
-                        .padding(16)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    Button {
+                        appState.toggleLanguage()
+                    } label: {
+                        Label(LocalizedStringKey("button.language"), systemImage: "globe")
+                            .labelStyle(.iconOnly)
+                            .font(.title2)
+                            .padding(16)
+                            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    }
+                    .accessibilityLabel(LocalizedStringKey("accessibility.toggle-language"))
                 }
-                .accessibilityLabel(LocalizedStringKey("accessibility.open-settings"))
-
-                Button {
-                    appState.toggleLanguage()
-                } label: {
-                    Label(LocalizedStringKey("button.language"), systemImage: "globe")
-                        .labelStyle(.iconOnly)
-                        .font(.title2)
-                        .padding(16)
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-                }
-                .accessibilityLabel(LocalizedStringKey("accessibility.toggle-language"))
+                .padding(.bottom, 24)
             }
-            .padding(.bottom, 24)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(LinearGradient(colors: [.mint.opacity(0.2), .orange.opacity(0.2)], startPoint: .topLeading, endPoint: .bottomTrailing).ignoresSafeArea())
@@ -79,6 +104,9 @@ struct CountdownView: View {
         }
         .sheet(isPresented: $showingSettings) {
             SettingsView()
+        }
+        .sheet(isPresented: $showingLifeChecklist) {
+            LifeChecklistView()
         }
     }
 }

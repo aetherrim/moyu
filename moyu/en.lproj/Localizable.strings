@@ -14,6 +14,7 @@
 "button.language" = "Change language";
 "accessibility.open-settings" = "Open settings";
 "accessibility.toggle-language" = "Toggle language";
+"accessibility.open-life-checklist" = "Open life checklist";
 "settings.title" = "Settings";
 "settings.profile.title" = "Profile";
 "settings.profile.sex" = "Biological sex";
@@ -28,6 +29,8 @@
 "settings.notifications.denied.title" = "Notifications disabled";
 "settings.notifications.denied.message" = "Turn notifications back on from iOS Settings to receive daily reminders.";
 "button.done" = "Done";
+"button.add" = "Add";
+"button.cancel" = "Cancel";
 "button.ok" = "OK";
 "button.back" = "Back";
 "button.next" = "Next";
@@ -41,3 +44,9 @@
 "onboarding.notifications.allow" = "Allow daily reminder";
 "onboarding.notifications.enabled-status" = "Reminders are ready";
 "onboarding.notifications.hint" = "You can change or turn off reminders anytime in Settings.";
+"lifeChecklist.title" = "Life Checklist";
+"lifeChecklist.empty.title" = "No life checklist yet";
+"lifeChecklist.empty.subtitle" = "Tap the plus button to add something you genuinely want to do.";
+"lifeChecklist.add.title" = "Add Life Checklist Item";
+"lifeChecklist.add.placeholder" = "For example: travel alone to a new city";
+"lifeChecklist.add.button" = "Add life checklist item";

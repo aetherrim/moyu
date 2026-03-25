@@ -14,6 +14,7 @@
 "button.language" = "言語を切り替える";
 "accessibility.open-settings" = "設定を開く";
 "accessibility.toggle-language" = "言語を切り替える";
+"accessibility.open-life-checklist" = "人生チェックリストを開く";
 "settings.title" = "設定";
 "settings.profile.title" = "プロフィール";
 "settings.profile.sex" = "生物学的性";
@@ -28,6 +29,8 @@
 "settings.notifications.denied.title" = "通知がオフです";
 "settings.notifications.denied.message" = "毎日のリマインダーを受け取るには iOS の設定で通知をオンにしてください。";
 "button.done" = "完了";
+"button.add" = "追加";
+"button.cancel" = "キャンセル";
 "button.ok" = "OK";
 "button.back" = "戻る";
 "button.next" = "次へ";
@@ -41,3 +44,9 @@
 "onboarding.notifications.allow" = "毎日のリマインダーを許可";
 "onboarding.notifications.enabled-status" = "リマインダーの準備完了";
 "onboarding.notifications.hint" = "リマインダーは設定からいつでも変更・停止できます。";
+"lifeChecklist.title" = "人生チェックリスト";
+"lifeChecklist.empty.title" = "まだ人生チェックリストがありません";
+"lifeChecklist.empty.subtitle" = "右上のプラスで、本当にやりたいことを追加してください。";
+"lifeChecklist.add.title" = "人生チェックリストを追加";
+"lifeChecklist.add.placeholder" = "例: 知らない街へ一人で行く";
+"lifeChecklist.add.button" = "人生チェックリストを追加";

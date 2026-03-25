@@ -54,6 +54,13 @@ final class AppState: ObservableObject {
         }
     }
 
+    @Published private(set) var lifeChecklistItems: [LifeChecklistItem] {
+        didSet {
+            guard !isInitializing else { return }
+            saveLifeChecklistItems()
+        }
+    }
+
     private let defaults: UserDefaults
     private let notificationManager: NotificationManager
     private let dailyQuoteProvider: DailyQuoteProviding
@@ -108,6 +115,7 @@ final class AppState: ObservableObject {
         }
 
         self.hasCompletedOnboarding = defaults.bool(forKey: SharedDefaults.Keys.hasCompletedOnboarding)
+        self.lifeChecklistItems = Self.loadLifeChecklistItems(from: defaults)
 
         self.isInitializing = false
 
@@ -120,8 +128,57 @@ final class AppState: ObservableObject {
 
     var dailyQuote: Quote { quote() }
 
+    var totalLifeChecklistCount: Int { lifeChecklistItems.count }
+
+    var completedLifeChecklistCount: Int {
+        lifeChecklistItems.lazy.filter(\.isCompleted).count
+    }
+
+    var lifeChecklistProgressText: String {
+        "\(completedLifeChecklistCount)/\(totalLifeChecklistCount)"
+    }
+
+    var sortedLifeChecklistItems: [LifeChecklistItem] {
+        lifeChecklistItems.sorted { lhs, rhs in
+            if lhs.isCompleted != rhs.isCompleted {
+                return !lhs.isCompleted && rhs.isCompleted
+            }
+
+            if lhs.sortOrder != rhs.sortOrder {
+                return lhs.sortOrder < rhs.sortOrder
+            }
+
+            return lhs.createdAt < rhs.createdAt
+        }
+    }
+
     func quote(for date: Date = Date()) -> Quote {
         dailyQuoteProvider.quote(for: date)
+    }
+
+    func addLifeChecklistItem(title: String) {
+        let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedTitle.isEmpty else { return }
+
+        let nextSortOrder = (lifeChecklistItems.map(\.sortOrder).max() ?? -1) + 1
+        lifeChecklistItems.append(
+            LifeChecklistItem(
+                title: trimmedTitle,
+                sortOrder: nextSortOrder
+            )
+        )
+    }
+
+    func toggleLifeChecklistItemCompletion(id: UUID) {
+        guard let index = lifeChecklistItems.firstIndex(where: { $0.id == id }) else { return }
+
+        lifeChecklistItems[index].isCompleted.toggle()
+        lifeChecklistItems[index].completedAt = lifeChecklistItems[index].isCompleted ? Date() : nil
+    }
+
+    func deleteLifeChecklistItems(at offsets: IndexSet) {
+        let idsToDelete = offsets.map { sortedLifeChecklistItems[$0].id }
+        lifeChecklistItems.removeAll { idsToDelete.contains($0.id) }
     }
 
     func toggleLanguage() {
@@ -181,6 +238,27 @@ private extension AppState {
 
     func refreshWidgets() {
         WidgetCenter.shared.reloadTimelines(ofKind: "moyuWidget")
+    }
+
+    static func loadLifeChecklistItems(from defaults: UserDefaults) -> [LifeChecklistItem] {
+        guard let data = defaults.data(forKey: SharedDefaults.Keys.lifeChecklistItems) else {
+            return []
+        }
+
+        do {
+            return try JSONDecoder().decode([LifeChecklistItem].self, from: data)
+        } catch {
+            return []
+        }
+    }
+
+    func saveLifeChecklistItems() {
+        do {
+            let data = try JSONEncoder().encode(lifeChecklistItems)
+            defaults.set(data, forKey: SharedDefaults.Keys.lifeChecklistItems)
+        } catch {
+            assertionFailure("Failed to save life checklist items: \(error)")
+        }
     }
 
     private func configureNotificationsOnLaunch() async {
